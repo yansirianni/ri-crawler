@@ -34,7 +34,7 @@ class PageFetcherTest(unittest.TestCase):
                               ]
         print(f"Simulação da extração de links da página {obj_url.geturl()} na profundidade nível 2...")
         for i,(url_link,depth) in enumerate(self.fetcher.discover_links(obj_url,2,bin_str_content)):
-            self.assertEqual(arr_expected_links[i][0].geturl(),url_link.geturl(),f"A {i}ª URL extraída seria {arr_expected_links[i][0].geturl()} e não {url_link.geturl()}")
+            self.assertEqual(arr_expected_links[i][0].geturl(),url_link.geturl(),f"A {i + 1}ª URL extraída seria {arr_expected_links[i][0].geturl()} e não {url_link.geturl()}")
             self.assertEqual(arr_expected_links[i][1],depth,f"A profundiade da URL {arr_expected_links[i][0].geturl()} seria {arr_expected_links[i][1]} e não {depth}")
 
 if __name__ == "__main__":
