@@ -24,13 +24,13 @@ class DomainTest(unittest.TestCase):
 
 
 class SchedulerTest(unittest.TestCase):
-    urlXpto = (urlparse("http://www.xpto.com.br/index.html"), 100000)
-    urlTerra = (urlparse("http://www.terra.com.br/index.html"), 1)
-    urlTerra2 = (urlparse("http://www.terra.com.br/index.html"), 1)
-    urlTerraRep = (urlparse("http://www.terra.com.br/index.html"), 1)
-    urlUOL1 = (urlparse("http://www.uol.com.br/"), 1)
-    urlUOL2 = (urlparse("http://www.uol.com.br/profMax.html"), 1)
-    urlGlobo = (urlparse("http://www.globo.com.br/profMax.html"), 1)
+    urlXpto = (urlparse("https://www.xpto.com.br/index.html"), 100000)
+    urlTerra = (urlparse("https://www.terra.com.br/index.html"), 1)
+    urlTerra2 = (urlparse("https://www.terra.com.br/index.html"), 1)
+    urlTerraRep = (urlparse("https://www.terra.com.br/index.html"), 1)
+    urlUOL1 = (urlparse("https://www.uol.com.br/"), 1)
+    urlUOL2 = (urlparse("https://www.uol.com.br/profMax.html"), 1)
+    urlGlobo = (urlparse("https://www.globo.com.br/profMax.html"), 1)
     MOCK_USER_AGENT = 'azulaoBot'
     TIME_LIMIT = 10
     DEPTH_LIMIT = 3
