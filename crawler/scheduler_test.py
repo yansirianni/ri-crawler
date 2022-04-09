@@ -145,7 +145,7 @@ class SchedulerTest(unittest.TestCase):
         self.assertTrue(not bol_not_allowed,
                         f"Não deveria ser permitida requisitar a url {obj_url_not_allowed.geturl()} segundo o robots.txt  do dominio {obj_url_not_allowed.netloc}, porém o método can_fetch_page retornou True")
         self.assertTrue(bol_allowed,
-                        f"Não deveria ser permitida requisitar a url {obj_url_allowed.geturl()} segundo o robots.txt do dominio {obj_url_allowed.netloc}, porém o método can_fetch_page retornou False")
+                        f"Deveria ser permitida requisitar a url {obj_url_allowed.geturl()} segundo o robots.txt do dominio {obj_url_allowed.netloc}, porém o método can_fetch_page retornou False")
 
         # verifica se foi adicionado a globo.com
         self.assertTrue(obj_url_allowed.netloc in self.scheduler.dic_robots_per_domain,
