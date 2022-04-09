@@ -37,9 +37,9 @@ class SchedulerTest(unittest.TestCase):
     SEEDS = []
 
     def setUp(self):
-        self.scheduler = Scheduler(str_usr_agent="xxbot",
-                                   int_page_limit=self.TIME_LIMIT,
-                                   int_depth_limit=self.DEPTH_LIMIT,
+        self.scheduler = Scheduler(usr_agent="xxbot",
+                                   page_limit=self.TIME_LIMIT,
+                                   depth_limit=self.DEPTH_LIMIT,
                                    arr_urls_seeds=self.SEEDS)
 
     def test_init(self):
@@ -58,9 +58,9 @@ class SchedulerTest(unittest.TestCase):
             self.assertFalse(canAddXpto, msg='A url XPTO não deveria poder ser adicionada')
 
     def __test_existed_domain(self):
-        scheduler_test = Scheduler(str_usr_agent=self.MOCK_USER_AGENT,
-                                   int_page_limit=self.TIME_LIMIT,
-                                   int_depth_limit=self.DEPTH_LIMIT,
+        scheduler_test = Scheduler(usr_agent=self.MOCK_USER_AGENT,
+                                   page_limit=self.TIME_LIMIT,
+                                   depth_limit=self.DEPTH_LIMIT,
                                    arr_urls_seeds=self.SEEDS)
         self.__test_can_add_uol1(scheduler_test)
         self.__add_uol_1(scheduler_test)
