@@ -52,7 +52,7 @@ class SchedulerTest(unittest.TestCase):
                                    depth_limit=self.DEPTH_LIMIT,
                                    arr_urls_seeds=arr_urls_seeds)
         
-        self.assertEqual(3, self.scheduler.page_count, "Nao foi adicionado as sementes solicitadas")
+        self.assertEqual(len(arr_str_urls_seeds), self.scheduler.page_count, "Nao foi adicionado as sementes solicitadas")
 
     def test_can_add_page(self):
         self.__testCanAddPageWithLongTimeLimit()
