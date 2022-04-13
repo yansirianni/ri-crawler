@@ -2,6 +2,7 @@ from urllib import robotparser
 from urllib.parse import ParseResult
 
 from util.threads import synchronized
+from time import sleep
 from collections import OrderedDict
 from .domain import Domain
 
