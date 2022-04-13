@@ -9,13 +9,17 @@ class Domain:
 
     @property
     def time_since_last_access(self) -> timedelta:
-        pass
+        return datetime.now() - self.time_last_access
 
     def accessed_now(self) -> None:
-        pass
+        self.time_last_access = datetime.now()
 
     def is_accessible(self) -> bool:
-        return False
+
+        if self.time_since_last_access.seconds >= self.time_limit_seconds:
+            return True
+        else:
+            return False
 
     def __hash__(self):
         return None
