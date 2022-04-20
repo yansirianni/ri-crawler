@@ -1,3 +1,4 @@
+from socket import ALG_SET_AEAD_ASSOCLEN
 from urllib import robotparser
 from urllib.parse import ParseResult
 
@@ -50,13 +51,26 @@ class Scheduler:
 
     @synchronized
     def can_add_page(self, obj_url: ParseResult, depth: int) -> bool:
+
+        if depth < self.depth_limit and obj_url not in self.set_discovered_urls:
+            return True
+        else: 
+            return False
+
         """
         :return: True caso a profundidade for menor que a maxima e a url não foi descoberta ainda. False caso contrário.
         """
-        return False
 
     @synchronized
     def add_new_page(self, obj_url: ParseResult, depth: int) -> bool:
+
+        if self.can_add_page(obj_url, depth):
+            
+            self.dic_url_per_domain[obj_url.netloc].append((obj_url, depth))
+            #self.dic_url_per_domain[Domain(obj_url.geturl(), self.TIME_LIMIT_BETWEEN_REQUESTS)]            
+            return True
+        else:
+            return False
         """
         Adiciona uma nova página
         :param obj_url: Objeto da classe ParseResult com a URL a ser adicionada
@@ -65,15 +79,19 @@ class Scheduler:
         """
         # https://docs.python.org/3/library/urllib.parse.html
 
-        return False
 
     @synchronized
     def get_next_url(self) -> tuple:
+
+        for dominio, urls in self.dic_url_per_domain.items():
+            if dominio.is_accessible():
+                dominio.accessed_now()               
+                
         """
         Obtém uma nova URL por meio da fila. Essa URL é removida da fila.
         Logo após, caso o servidor não tenha mais URLs, o mesmo também é removido.
         """
-        return None, None
+        return key, value.depth
 
     def can_fetch_page(self, obj_url: ParseResult) -> bool:
         """
