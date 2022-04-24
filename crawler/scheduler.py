@@ -1,4 +1,4 @@
-from socket import ALG_SET_AEAD_ASSOCLEN
+
 from urllib import robotparser
 from urllib.parse import ParseResult
 
@@ -33,7 +33,9 @@ class Scheduler:
         self.dic_url_per_domain = OrderedDict()
         self.set_discovered_urls = set()
         self.dic_robots_per_domain = {}
-
+        
+        for urls in arr_urls_seeds:
+            self.add_new_page(urls,1)
     @synchronized
     def count_fetched_page(self) -> None:
         """
@@ -51,13 +53,15 @@ class Scheduler:
 
     @synchronized
     def can_add_page(self, obj_url: ParseResult, depth: int) -> bool:
-        print(obj_url.geturl() not in self.set_discovered_urls)        
+              
 
         if depth > self.depth_limit:
             return False
 
-        if obj_url.geturl() not in self.set_discovered_urls:           
+        if obj_url.geturl() not in self.set_discovered_urls: 
             return True 
+        else: 
+            return False
         
         """
         :return: True caso a profundidade for menor que a maxima e a url não foi descoberta ainda. False caso contrário.
@@ -68,10 +72,11 @@ class Scheduler:
 
         if self.can_add_page(obj_url, depth):            
 
-            if not (obj_url.netloc in self.dic_url_per_domain):
-                self.dic_url_per_domain[obj_url.netloc] = [(obj_url, depth)]               
+            if not (Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS) in self.dic_url_per_domain.keys()):
+                self.dic_url_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)] = [(obj_url, depth)]
+                             
             else:
-                self.dic_url_per_domain[obj_url.netloc].append((obj_url, depth))
+                self.dic_url_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)].append((obj_url, depth))
             
             self.set_discovered_urls.add(obj_url.geturl())                     
             return True
@@ -106,5 +111,13 @@ class Scheduler:
         """
         Verifica, por meio do robots.txt se uma determinada URL pode ser coletada
         """
+        if Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS) not in self.dic_robots_per_domain.keys(): 
+             robot = robotparser.RobotFileParser()
+             robot.set_url(obj_url.geturl())
+             robot.read()
+             self.dic_robots_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)] = robot;
+             
+        robot = self.dic_robots_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)];
+             
 
-        return False
+        return robot.can_fetch(self.usr_agent,obj_url.geturl())

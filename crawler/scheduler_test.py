@@ -43,16 +43,16 @@ class SchedulerTest(unittest.TestCase):
                                    arr_urls_seeds=self.SEEDS)
 
     def test_init(self):
-        arr_str_urls_seeds = ["cnn.com",
-                              "www.gq.com.au/", "www.huffingtonpost.com/"]
+        arr_str_urls_seeds = ["https://cnn.com",
+                              "https://www.gq.com.au/", "https://www.huffingtonpost.com/"]
         arr_urls_seeds = [urlparse(str_url) for str_url in arr_str_urls_seeds]
-        
+        print(arr_urls_seeds)
         self.scheduler = Scheduler(usr_agent="xxbot",
                                    page_limit=self.TIME_LIMIT,
                                    depth_limit=self.DEPTH_LIMIT,
                                    arr_urls_seeds=arr_urls_seeds)
         
-        self.assertEqual(len(arr_str_urls_seeds), self.scheduler.page_count, "Nao foi adicionado as sementes solicitadas")
+        self.assertEqual(len(arr_str_urls_seeds),len(self.scheduler.dic_url_per_domain), "Nao foi adicionado as sementes solicitadas")
 
     def test_can_add_page(self):
         self.__testCanAddPageWithLongTimeLimit()
