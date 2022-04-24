@@ -51,12 +51,14 @@ class Scheduler:
 
     @synchronized
     def can_add_page(self, obj_url: ParseResult, depth: int) -> bool:
+        print(obj_url.geturl() not in self.set_discovered_urls)        
 
-        if depth < self.depth_limit and obj_url not in self.set_discovered_urls:
-            return True
-        else: 
+        if depth > self.depth_limit:
             return False
 
+        if obj_url.geturl() not in self.set_discovered_urls:           
+            return True 
+        
         """
         :return: True caso a profundidade for menor que a maxima e a url não foi descoberta ainda. False caso contrário.
         """
@@ -64,10 +66,14 @@ class Scheduler:
     @synchronized
     def add_new_page(self, obj_url: ParseResult, depth: int) -> bool:
 
-        if self.can_add_page(obj_url, depth):
+        if self.can_add_page(obj_url, depth):            
+
+            if not (obj_url.netloc in self.dic_url_per_domain):
+                self.dic_url_per_domain[obj_url.netloc] = [(obj_url, depth)]               
+            else:
+                self.dic_url_per_domain[obj_url.netloc].append((obj_url, depth))
             
-            self.dic_url_per_domain[obj_url.netloc].append((obj_url, depth))
-            #self.dic_url_per_domain[Domain(obj_url.geturl(), self.TIME_LIMIT_BETWEEN_REQUESTS)]            
+            self.set_discovered_urls.add(obj_url.geturl())                     
             return True
         else:
             return False
@@ -82,16 +88,19 @@ class Scheduler:
 
     @synchronized
     def get_next_url(self) -> tuple:
-
-        for dominio, urls in self.dic_url_per_domain.items():
+        
+        for dominio in self.dic_url_per_domain.keys():            
             if dominio.is_accessible():
-                dominio.accessed_now()               
+                dominio.accessed_now()
+                return self.dic_url_per_domain[dominio].pop(0) 
+
+        sleep(self.TIME_LIMIT_BETWEEN_REQUESTS)            
                 
         """
         Obtém uma nova URL por meio da fila. Essa URL é removida da fila.
         Logo após, caso o servidor não tenha mais URLs, o mesmo também é removido.
         """
-        return key, value.depth
+        return None, None
 
     def can_fetch_page(self, obj_url: ParseResult) -> bool:
         """

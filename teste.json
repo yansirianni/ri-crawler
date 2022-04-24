@@ -1,0 +1,45 @@
+[(ParseResult(scheme='https', netloc='www.xpto.com.br', path='/index.html', params='', query='', fragment=''),
+    100000),    
+    (ParseResult(scheme='https', netloc='www.terra.com.br', path='/index.html', params='', query='', fragment=''),
+    1),
+    (ParseResult(scheme='https', netloc='www.terra.com.br', path='/index.html', params='', query='', fragment=''),
+    1),
+    (ParseResult(scheme='https', netloc='www.uol.com.br', path='/', params='', query='', fragment=''),
+    1),
+    (ParseResult(scheme='https', netloc='www.uol.com.br', path='/profMax.html', params='', query='', fragment=''),
+    1),
+    (ParseResult(scheme='https', netloc='www.globo.com.br', path='/profMax.html', params='', query='', fragment=''),
+    1)
+]
+
+[('www.terra.com.br',
+    [(ParseResult(scheme='https', netloc='www.terra.com.br', path='/index.html', params='', query='', fragment=''),
+        1), 
+        (ParseResult(scheme='https', netloc='www.terra.com.br', path='/index.html', params='', query='', fragment=''),
+        1)
+    ]),
+ ('www.uol.com.br',
+    [(ParseResult(scheme='https', netloc='www.uol.com.br', path='/', params='', query='', fragment=''),
+        1),
+        (ParseResult(scheme='https', netloc='www.uol.com.br', path='/profMax.html', params='', query='', fragment=''),
+        1)
+    ]), 
+    ('www.globo.com.br',
+    [(ParseResult(scheme='https', netloc='www.globo.com.br', path='/profMax.html', params='', query='', fragment=''),
+        1)
+    ])
+]
+
+OrderedDict([('www.terra.com.br',
+    [(ParseResult(scheme='https', netloc='www.terra.com.br', path='/index.html', params='', query='', fragment=''),
+        1), (ParseResult(scheme='https', netloc='www.terra.com.br', path='/index.html', params='', query='', fragment=''),
+        1)
+    ]), ('www.uol.com.br',
+    [(ParseResult(scheme='https', netloc='www.uol.com.br', path='/', params='', query='', fragment=''),
+        1), (ParseResult(scheme='https', netloc='www.uol.com.br', path='/profMax.html', params='', query='', fragment=''),
+        1)
+    ]), ('www.globo.com.br',
+    [(ParseResult(scheme='https', netloc='www.globo.com.br', path='/profMax.html', params='', query='', fragment=''),
+        1)
+    ])
+])
