@@ -46,7 +46,7 @@ class SchedulerTest(unittest.TestCase):
         arr_str_urls_seeds = ["https://cnn.com",
                               "https://www.gq.com.au/", "https://www.huffingtonpost.com/"]
         arr_urls_seeds = [urlparse(str_url) for str_url in arr_str_urls_seeds]
-        print(arr_urls_seeds)
+        #print(arr_urls_seeds)
         self.scheduler = Scheduler(usr_agent="xxbot",
                                    page_limit=self.TIME_LIMIT,
                                    depth_limit=self.DEPTH_LIMIT,
@@ -96,7 +96,7 @@ class SchedulerTest(unittest.TestCase):
         urls = set()
         #print(arr_urls)
         #print('\ndicionario\n')
-        print(self.scheduler.dic_url_per_domain)
+        #print(self.scheduler.dic_url_per_domain)
         for key, arr in self.scheduler.dic_url_per_domain.items():
             set_urls = set(arr)
             self.assertTrue(len(set_urls) == len(

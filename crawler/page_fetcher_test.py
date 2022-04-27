@@ -25,7 +25,7 @@ class PageFetcherTest(unittest.TestCase):
 
     def test_discover_links(self):
         obj_url = urlparse("http://www.pudim.com.br")
-        bin_str_content = b"oi<a href='https://www.pudim.com.br/lala.html'></a>\
+        bin_str_content = b"oi<a href='http://www.pudim.com.br/lala.html'></a>\
                               <a href='xxi/lala.html'></a>\
                              <a href='http://www.terra.com.br/oi/lala.html'></a>"
 

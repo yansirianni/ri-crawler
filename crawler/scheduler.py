@@ -47,7 +47,7 @@ class Scheduler:
         """
         :return: True se finalizou a coleta. False caso contrário.
         """
-        if self.page_count > self.page_limit:
+        if self.page_count >= self.page_limit:
             return True
         return False
 

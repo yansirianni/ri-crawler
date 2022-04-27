@@ -1,3 +1,4 @@
+from curses import A_ALTCHARSET
 from typing import Optional
 
 from bs4 import BeautifulSoup
@@ -28,9 +29,17 @@ class PageFetcher(Thread):
         Retorna os links do conteúdo bin_str_content da página já requisitada obj_url
         """
         soup = BeautifulSoup(bin_str_content, features="lxml")
-        for link in soup.select(None):
-            obj_new_url = None
-            new_depth = None
+        for link in soup.select('a'):            
+            url = urlparse(link['href'])
+            if url.netloc == "":
+                obj_new_url = ParseResult(obj_url.scheme, obj_url.netloc, url.path, url.params, url.query, url.fragment)
+            else:
+                obj_new_url = url
+
+            if obj_new_url.hostname == obj_url.hostname:
+                new_depth = depth + 1    
+            else:
+                new_depth = 0
 
             yield obj_new_url, new_depth
 
@@ -38,6 +47,9 @@ class PageFetcher(Thread):
         """
         Coleta uma nova URL, obtendo-a do escalonador
         """
+
+        url, deph = self.obj_scheduler.get_next_url()
+        
         pass
 
     def run(self):
