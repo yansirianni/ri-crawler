@@ -78,7 +78,8 @@ class Scheduler:
             else:
                 self.dic_url_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)].append((obj_url, depth))
             
-            self.set_discovered_urls.add(obj_url.geturl())                     
+            self.set_discovered_urls.add(obj_url.geturl())  
+            self.count_fetched_page()                   
             return True
         else:
             return False

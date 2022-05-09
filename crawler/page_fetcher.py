@@ -29,19 +29,23 @@ class PageFetcher(Thread):
         Retorna os links do conteúdo bin_str_content da página já requisitada obj_url
         """
         soup = BeautifulSoup(bin_str_content, features="lxml")
-        for link in soup.select('a'):            
-            url = urlparse(link['href'])
-            if url.netloc == "":
-                obj_new_url = ParseResult(obj_url.scheme, obj_url.netloc, url.path, url.params, url.query, url.fragment)
-            else:
-                obj_new_url = url
+        for link in soup.select('a'):
+            try:
+                url = urlparse(link['href'])
+            except KeyError:
+                return None, None
+            else:            
+                if url.netloc == "":
+                    obj_new_url = ParseResult(obj_url.scheme, obj_url.netloc, url.path, url.params, url.query, url.fragment)
+                else:
+                    obj_new_url = url
 
-            if obj_new_url.hostname == obj_url.hostname:
-                new_depth = depth + 1    
-            else:
-                new_depth = 0
+                if obj_new_url.hostname == obj_url.hostname:
+                    new_depth = depth + 1    
+                else:
+                    new_depth = 0
 
-            yield obj_new_url, new_depth
+                yield obj_new_url, new_depth
 
     def crawl_new_url(self):
         """
@@ -49,11 +53,18 @@ class PageFetcher(Thread):
         """
 
         url, deph = self.obj_scheduler.get_next_url()
-        
-        pass
+        response = self.request_url(url)
+
+        if response is not None:            
+
+            for url, deph in self.discover_links(url, deph, response):
+                self.obj_scheduler.add_new_page(url, deph)
+                print(f'Pagina {self.obj_scheduler.page_count} = {url}')
 
     def run(self):
+
+        while not self.obj_scheduler.has_finished_crawl():
+            self.crawl_new_url()
         """
         Executa coleta enquanto houver páginas a serem coletadas
-        """
-        pass
+        """      
