@@ -17,11 +17,17 @@ class PageFetcher(Thread):
         :param obj_url: Instância da classe ParseResult com a URL a ser requisitada.
         :return: Conteúdo em binário da URL passada como parâmetro, ou None se o conteúdo não for HTML
         """
-        response = requests.get(url = obj_url.geturl(),headers={'User-Agent':self.obj_scheduler.usr_agent})
+
+        try:
+            response = requests.get(url = obj_url.geturl(),headers={'User-Agent':self.obj_scheduler.usr_agent})
+        except:
+            return None
        
         if 'text/html' in response.headers['Content-Type']:
             self.obj_scheduler.count_fetched_page()
             return response.content
+                
+        print('ENTREI AQUI')
         
         return None
 
@@ -58,13 +64,12 @@ class PageFetcher(Thread):
         if self.obj_scheduler.can_fetch_page(url):
             response = self.request_url(url)
 
-            if response is not None:            
+            print(f'\nCOUNT = {self.obj_scheduler.page_count} URL = {url}')
+
+            if response is not None:
 
                 for url, deph in self.discover_links(url, deph, response):
-                        self.obj_scheduler.add_new_page(url, deph)
-                        print(f'{self.obj_scheduler.page_count} {url}')
-                
-                
+                        self.obj_scheduler.add_new_page(url, deph)    
 
     def run(self):
 

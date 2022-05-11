@@ -47,7 +47,7 @@ class Scheduler:
         """
         :return: True se finalizou a coleta. False caso contrário.
         """
-        if self.page_count >= self.page_limit:
+        if self.page_limit < self.page_count:
             return True
         return False
 
@@ -98,8 +98,10 @@ class Scheduler:
         
         for dominio in self.dic_url_per_domain.keys():            
             if dominio.is_accessible():
-                dominio.accessed_now()
-                return self.dic_url_per_domain[dominio].pop(0) 
+                
+                if len(self.dic_url_per_domain[dominio]) > 0:
+                    dominio.accessed_now()
+                    return self.dic_url_per_domain[dominio].pop(0) 
 
         sleep(self.TIME_LIMIT_BETWEEN_REQUESTS)            
                 
