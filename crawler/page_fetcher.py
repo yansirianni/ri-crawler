@@ -27,8 +27,6 @@ class PageFetcher(Thread):
             self.obj_scheduler.count_fetched_page()
             return response.content
                 
-        print('ENTREI AQUI')
-        
         return None
 
     def discover_links(self, obj_url: ParseResult, depth: int, bin_str_content: bytes):
