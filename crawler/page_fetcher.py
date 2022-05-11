@@ -20,6 +20,7 @@ class PageFetcher(Thread):
         response = requests.get(url = obj_url.geturl(),headers={'User-Agent':self.obj_scheduler.usr_agent})
        
         if 'text/html' in response.headers['Content-Type']:
+            self.obj_scheduler.count_fetched_page()
             return response.content
         
         return None
@@ -53,13 +54,17 @@ class PageFetcher(Thread):
         """
 
         url, deph = self.obj_scheduler.get_next_url()
-        response = self.request_url(url)
+        
+        if self.obj_scheduler.can_fetch_page(url):
+            response = self.request_url(url)
 
-        if response is not None:            
+            if response is not None:            
 
-            for url, deph in self.discover_links(url, deph, response):
-                self.obj_scheduler.add_new_page(url, deph)
-                print(f'Pagina {self.obj_scheduler.page_count} = {url}')
+                for url, deph in self.discover_links(url, deph, response):
+                        self.obj_scheduler.add_new_page(url, deph)
+                        print(f'{self.obj_scheduler.page_count} {url}')
+                
+                
 
     def run(self):
 

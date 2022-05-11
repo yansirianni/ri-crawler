@@ -79,7 +79,8 @@ class Scheduler:
                 self.dic_url_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)].append((obj_url, depth))
             
             self.set_discovered_urls.add(obj_url.geturl())  
-            self.count_fetched_page()                   
+             
+              
             return True
         else:
             return False
@@ -115,7 +116,10 @@ class Scheduler:
         if Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS) not in self.dic_robots_per_domain.keys(): 
              robot = robotparser.RobotFileParser()
              robot.set_url(obj_url.geturl())
-             robot.read()
+             try: 
+                robot.read()
+             except:
+                return False
              self.dic_robots_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)] = robot;
              
         robot = self.dic_robots_per_domain[Domain(obj_url.hostname,self.TIME_LIMIT_BETWEEN_REQUESTS)];
