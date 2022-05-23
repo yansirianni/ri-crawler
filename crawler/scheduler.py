@@ -103,7 +103,7 @@ class Scheduler:
                     dominio.accessed_now()
                     return self.dic_url_per_domain[dominio].pop(0) 
 
-        sleep(self.TIME_LIMIT_BETWEEN_REQUESTS)            
+        sleep(1)            
                 
         """
         Obtém uma nova URL por meio da fila. Essa URL é removida da fila.

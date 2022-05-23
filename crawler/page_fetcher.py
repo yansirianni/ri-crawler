@@ -23,9 +23,9 @@ class PageFetcher(Thread):
         except:
             return None
        
-        if 'text/html' in response.headers['Content-Type']:
-            self.obj_scheduler.count_fetched_page()
-            return response.content
+        if 'text/html' in response.headers.get('Content-Type',''):
+                self.obj_scheduler.count_fetched_page()
+                return response.content    
                 
         return None
 
